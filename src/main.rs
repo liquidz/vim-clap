@@ -53,13 +53,34 @@ pub fn main() {
 
     ranked.par_sort_unstable_by(|(_, v1, _), (_, v2, _)| v2.partial_cmp(&v1).unwrap());
 
-    for (text, _, indices) in ranked.iter() {
-        println!(
-            "{}",
-            json!({
-            "text": text,
-            "indices": indices,
-            })
-        );
-    }
+    let total = ranked.len();
+
+    ranked.truncate(200);
+
+    let lines = ranked
+        .iter()
+        .take(200)
+        .map(|(text, _, _)| text)
+        .collect::<Vec<_>>();
+
+    let indices = ranked
+        .iter()
+        .take(200)
+        .map(|(_, _, indices)| indices)
+        .collect::<Vec<_>>();
+
+    println!(
+        "{}",
+        json!({ "indices": indices,"lines": lines, "total": total })
+    );
+
+    // for (text, _, indices) in ranked.iter() {
+    // println!(
+    // "{}",
+    // json!({
+    // "text": text,
+    // "indices": indices,
+    // })
+    // );
+    // }
 }

@@ -5,10 +5,19 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 if has('nvim')
+  function! clap#job#start(cmd, job_opts) abort
+    return jobstart(a:cmd, a:job_opts)
+  endfunction
+
   function! clap#job#stop(job_id) abort
     silent! call jobstop(a:job_id)
   endfunction
 else
+  function! clap#job#start(cmd, job_opts) abort
+    let job = job_start(clap#job#wrap_cmd(a:cmd), a:job_opts)
+    return clap#job#parse_vim8_job_id(string(job))
+  endfunction
+
   function! clap#job#stop(job_id) abort
     " Kill it!
     silent! call jobstop(a:job_id, 'kill')

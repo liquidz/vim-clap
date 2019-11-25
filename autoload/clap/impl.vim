@@ -195,7 +195,8 @@ function! s:on_typed_async_impl() abort
   call g:clap.display.clear()
 
   let cmd = g:clap.provider.source_async_or_default()
-  call clap#rooter#run(function('clap#dispatcher#job_start'), cmd)
+  " call clap#rooter#run(function('clap#dispatcher#job_start'), cmd)
+  call clap#rooter#run(function('clap#maple#job_start'), cmd)
   call clap#spinner#set_busy()
 
   if !exists('g:__clap_maple_fuzzy_matched')
@@ -237,6 +238,8 @@ endfunction
 "             on_move
 "
 function! clap#impl#on_typed() abort
+  call s:on_typed_async_impl()
+  return
   if exists('g:__clap_forerunner_result')
     call s:on_typed_sync_impl()
     return
