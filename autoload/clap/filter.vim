@@ -112,9 +112,9 @@ function! clap#filter#get_external_cmd_or_default() abort
   if ext_filter ==# 'maple'
     let g:__clap_maple_fuzzy_matched = []
     let Provider = g:clap.provider._()
-    if !has_key(Provider, 'converter')
-      let Provider.converter = function('s:maple_converter')
-    endif
+    " if !has_key(Provider, 'converter')
+      " let Provider.converter = function('s:maple_converter')
+    " endif
   endif
   return printf(s:ext_cmd[ext_filter], g:clap.input.get())
 endfunction
